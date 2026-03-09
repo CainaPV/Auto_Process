@@ -21,13 +21,13 @@ class Auto_Bot():
                 page.locator(selector_chat).fill(process)
                 time.sleep(5)
                 page.keyboard.press('Enter')
-                time.sleep(10)
+                time.sleep(5)
 
     @staticmethod
     def auto_off(msg):
 
         with sync_playwright() as p:
-                browser = p.chromium.launch_persistent_context('user_data', headless=True)
+                browser = p.chromium.launch_persistent_context('user_data', headless=False)
                 page = browser.pages[0]
                 page.goto("https://web.whatsapp.com/")
                 selector_search_group = 'div[contenteditable="true"]'

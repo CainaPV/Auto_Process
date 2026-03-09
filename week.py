@@ -21,7 +21,7 @@ class Auto_Bot():
                 page.locator(selector_chat).fill(process)
                 time.sleep(5)
                 page.keyboard.press('Enter')
-                time.sleep(10)
+                time.sleep(5)
 
     @staticmethod
     def auto_off(msg):
