@@ -82,6 +82,7 @@ def notification_process():
                 bot.auto_notification(menssage)
          else:
               bot.auto_off(f"Boa tarde! Não temos pregão na segunda.")
+            
 
 
 auto = notification_process()
