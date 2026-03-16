@@ -37,6 +37,7 @@ class Auto_Bot():
                 page.keyboard.press('Enter')
                 selector_chat = 'div[aria-activedescendant][aria-autocomplete="list"]'
                 page.locator(selector_chat).fill(msg)
+                time.sleep(5)
                 page.keyboard.press('Enter')
                 time.sleep(10)            
 
