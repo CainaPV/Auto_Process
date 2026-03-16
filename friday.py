@@ -27,7 +27,7 @@ class Auto_Bot():
     def auto_off(msg):
 
         with sync_playwright() as p:
-                browser = p.chromium.launch_persistent_context('user_data', headless=True)
+                browser = p.chromium.launch_persistent_context('user_data', headless=False)
                 page = browser.pages[0]
                 page.goto("https://web.whatsapp.com/")
                 selector_search_group = 'div[contenteditable="true"]'
