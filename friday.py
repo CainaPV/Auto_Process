@@ -2,61 +2,13 @@ from playwright.sync_api import sync_playwright
 import time
 from datetime import timedelta, date
 import pandas as pd
-
-class Auto_Bot():
-
-    @staticmethod
-    def auto_notification(process):
-
-        with sync_playwright() as p:
-                browser = p.chromium.launch_persistent_context('user_data', headless=False)
-                page = browser.pages[0]
-                page.goto("https://web.whatsapp.com/")
-                selector_search_group = 'div[contenteditable="true"]'
-                page.wait_for_selector(selector_search_group, timeout=60000)
-                page.locator(selector_search_group).click()
-                page.locator(selector_search_group).fill("Future")
-                page.keyboard.press('Enter')
-                selector_chat = 'div[aria-activedescendant][aria-autocomplete="list"]'
-                page.locator(selector_chat).fill(process)
-                time.sleep(5)
-                page.keyboard.press('Enter')
-                time.sleep(5)
-
-    @staticmethod
-    def auto_off(msg):
-
-        with sync_playwright() as p:
-                browser = p.chromium.launch_persistent_context('user_data', headless=False)
-                page = browser.pages[0]
-                page.goto("https://web.whatsapp.com/")
-                selector_search_group = 'div[contenteditable="true"]'
-                page.wait_for_selector(selector_search_group, timeout=60000)
-                page.locator(selector_search_group).click()
-                page.locator(selector_search_group).fill("Future")
-                page.keyboard.press('Enter')
-                selector_chat = 'div[aria-activedescendant][aria-autocomplete="list"]'
-                page.locator(selector_chat).fill(msg)
-                page.keyboard.press('Enter')
-                time.sleep(10)            
-
-    @staticmethod
-    def data_processing():
-       
-       path = r"C:\Users\caina\OneDrive\Área de Trabalho\Server\Arquivos\Licitacao\MAPA.xlsx"
-       df = pd.read_excel(path, sheet_name='2026')
-       df = df[df['CLIENTE'].notna()]
-       df['DATA'] = pd.to_datetime(df['DATA']).dt.date
-       df['R$'] = df['R$'].fillna('S/ESTIMADO')
-       df['SITUAÇÃO'] = df['SITUAÇÃO'].fillna('APTO')
-       return df
+from main import Auto_Bot
 
 
 #Verifica se hoje é sexta, se for, avisa se tem pregão na segunda.
 def notification_process():
 
     bot = Auto_Bot()
-     
     today = date.today()
     tomorrow = today + timedelta(days=1)
     weekday = today.isoweekday()
@@ -81,7 +33,8 @@ def notification_process():
                         )
                 bot.auto_notification(menssage)
          else:
-              bot.auto_off(f"Boa tarde! Não temos pregão na segunda.")
+          msg=f"Boa tarde! Não temos pregão na segunda."
+          bot.auto_off(msg)
             
 
 
