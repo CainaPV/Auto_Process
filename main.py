@@ -2,6 +2,8 @@ from playwright.sync_api import sync_playwright
 import time
 from datetime import timedelta, date
 import pandas as pd
+import shutil
+import os
 
 class Auto_Bot():
 
@@ -16,8 +18,9 @@ class Auto_Bot():
                 page.wait_for_selector(selector_search_group, timeout=60000)
                 page.locator(selector_search_group).click()
                 page.locator(selector_search_group).fill("Future")
-                page.keyboard.press('Enter')
-                selector_chat = 'div[aria-activedescendant][aria-autocomplete="list"]'
+                selector_result = 'span[title="Future"]'
+                page.locator(selector_result).click()
+                selector_chat = selector_chat = 'div[aria-activedescendant][aria-autocomplete="list"]'
                 page.locator(selector_chat).fill(process)
                 time.sleep(5)
                 page.keyboard.press('Enter')
@@ -34,23 +37,28 @@ class Auto_Bot():
                 page.wait_for_selector(selector_search_group, timeout=60000)
                 page.locator(selector_search_group).click()
                 page.locator(selector_search_group).fill("Future")
-                page.keyboard.press('Enter')
-                selector_chat = 'div[aria-activedescendant][aria-autocomplete="list"]'
+                selector_result = 'span[title="Future"]'
+                page.locator(selector_result).click()
+                selector_chat = selector_chat = 'div[aria-activedescendant][aria-autocomplete="list"]'
                 page.locator(selector_chat).fill(msg)
                 time.sleep(5)
                 page.keyboard.press('Enter')
-                time.sleep(10)            
+                time.sleep(5)        
 
     @staticmethod
     def data_processing():
        
        path = r"C:\Users\caina\OneDrive\Área de Trabalho\Server\Arquivos\Licitacao\MAPA.xlsx"
-       df = pd.read_excel(path, sheet_name='2026')
+       file_temp = 'mapa-temp.xlsx'
+       copy_file = shutil.copy2(path,file_temp)   
+       df = pd.read_excel(copy_file, sheet_name='2026')
+       os.remove(file_temp) 
        df = df[df['CLIENTE'].notna()]
        df['DATA'] = pd.to_datetime(df['DATA']).dt.date
        df['R$'] = df['R$'].fillna('S/ESTIMADO')
        df['SITUAÇÃO'] = df['SITUAÇÃO'].fillna('APTO')
        return df
+
 
 
 
@@ -84,8 +92,10 @@ def notification_process():
                         )
                 bot.auto_notification(menssage)
         else:
-            bot.auto_off('Boa tarde! Amanhã não temos pregão.')
+            msg = f"Boa tarde! Amanhã não temos pregão."
+            bot.auto_off(msg)
 
 
-auto = notification_process()
+if __name__ == "__main__":
+    notification_process()
          
