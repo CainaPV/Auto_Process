@@ -14,17 +14,33 @@ class Auto_Bot():
                 browser = p.chromium.launch_persistent_context('user_data', headless=False)
                 page = browser.pages[0]
                 page.goto("https://web.whatsapp.com/")
-                selector_search_group = 'div[contenteditable="true"]'
-                page.wait_for_selector(selector_search_group, timeout=60000)
-                page.locator(selector_search_group).click()
-                page.locator(selector_search_group).fill("Future")
-                selector_result = 'span[title="Future"]'
-                page.locator(selector_result).click()
-                selector_chat = selector_chat = 'div[aria-activedescendant][aria-autocomplete="list"]'
-                page.locator(selector_chat).fill(process)
-                time.sleep(5)
-                page.keyboard.press('Enter')
-                time.sleep(5)
+                selectors_list = ['input[aria-label*="Search"]', 'div[aria-label*="Search"]']
+                group_field = None
+                for sel in selectors_list:
+                    try:
+                         group_field = page.wait_for_selector(sel, timeout=60000)
+                         if group_field:
+                              break
+                    except Exception:
+                         continue     
+                if group_field:
+                     group_field.fill("Future")
+                     selector_result = 'span[title="Future"]'
+                     page.locator(selector_result).click()
+                     selectors_message_list = ['div[aria-activedescendant][aria-autocomplete*="list"]', 'div[contenteditable*="true"]', 'div[data-tab="10"]', 'input[aria-activedescendant][aria-autocomplete="list"]']
+                     message_field = None
+                     for sel in selectors_message_list:
+                          try:
+                               message_field = page.wait_for_selector(sel, timeout=60000)
+                               if message_field:
+                                    break
+                          except Exception:
+                               continue
+                if message_field:
+                     message_field.fill(process)
+                     time.sleep(5)
+                     page.keyboard.press('Enter')
+                     time.sleep(15)
 
     @staticmethod
     def auto_off(msg):
@@ -33,17 +49,34 @@ class Auto_Bot():
                 browser = p.chromium.launch_persistent_context('user_data', headless=False)
                 page = browser.pages[0]
                 page.goto("https://web.whatsapp.com/")
-                selector_search_group = 'div[contenteditable="true"]'
-                page.wait_for_selector(selector_search_group, timeout=60000)
-                page.locator(selector_search_group).click()
-                page.locator(selector_search_group).fill("Future")
-                selector_result = 'span[title="Future"]'
-                page.locator(selector_result).click()
-                selector_chat = selector_chat = 'div[aria-activedescendant][aria-autocomplete="list"]'
-                page.locator(selector_chat).fill(msg)
-                time.sleep(5)
-                page.keyboard.press('Enter')
-                time.sleep(5)        
+                selectors_list = ['input[aria-label*="Search"]', 'div[aria-label*="Search"]']
+                group_field = None
+                for sel in selectors_list:
+                    try:
+                         group_field = page.wait_for_selector(sel, timeout=60000)
+                         if group_field:
+                              break
+                    except Exception:
+                         continue     
+                if group_field:
+                     group_field.fill("Future")
+                     selector_result = 'span[title="Future"]'
+                     page.locator(selector_result).click()
+                     selectors_message_list = ['div[aria-activedescendant][aria-autocomplete*="list"]', 'div[contenteditable*="true"]', 'div[data-tab="10"]', 'input[aria-activedescendant][aria-autocomplete="list"]']
+                     message_field = None
+                     for sel in selectors_message_list:
+                          try:
+                               message_field = page.wait_for_selector(sel, timeout=60000)
+                               if message_field:
+                                    break
+                          except Exception:
+                               continue
+                if message_field:
+                     message_field.fill(msg)
+                     time.sleep(5)
+                     page.keyboard.press('Enter')
+                     time.sleep(15)    
+                                      
 
     @staticmethod
     def data_processing():
