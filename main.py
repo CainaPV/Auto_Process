@@ -24,8 +24,8 @@ class Auto_Bot():
                     except Exception:
                          continue     
                 if group_field:
-                     group_field.fill("Future")
-                     selector_result = 'span[title="Future"]'
+                     group_field.fill("Company_Group")
+                     selector_result = 'span[title="Company_Group"]'
                      page.locator(selector_result).click()
                      selectors_message_list = ['div[aria-activedescendant][aria-autocomplete*="list"]', 'div[contenteditable*="true"]', 'div[data-tab="10"]', 'input[aria-activedescendant][aria-autocomplete="list"]']
                      message_field = None
@@ -59,8 +59,8 @@ class Auto_Bot():
                     except Exception:
                          continue     
                 if group_field:
-                     group_field.fill("Future")
-                     selector_result = 'span[title="Future"]'
+                     group_field.fill("Company_Group")
+                     selector_result = 'span[title="Company_Group"]'
                      page.locator(selector_result).click()
                      selectors_message_list = ['div[aria-activedescendant][aria-autocomplete*="list"]', 'div[contenteditable*="true"]', 'div[data-tab="10"]', 'input[aria-activedescendant][aria-autocomplete="list"]']
                      message_field = None
@@ -81,7 +81,7 @@ class Auto_Bot():
     @staticmethod
     def data_processing():
        
-       path = r"C:\Users\caina\OneDrive\Área de Trabalho\Server\Arquivos\Licitacao\MAPA.xlsx"
+       path = r"path"
        file_temp = 'mapa-temp.xlsx'
        copy_file = shutil.copy2(path,file_temp)   
        df = pd.read_excel(copy_file, sheet_name='2026')
